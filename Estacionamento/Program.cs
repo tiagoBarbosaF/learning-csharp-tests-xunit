@@ -1,9 +1,9 @@
-﻿using Alura.Estacionamento.Alura.Estacionamento.Modelos;
-using Alura.Estacionamento.Modelos;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Estacionamento.Alura.Estacionamento.Modelos;
+using Estacionamento.Modelos;
 
-namespace Alura.Estacionamento
+namespace Estacionamento
 {
     class Program
     {

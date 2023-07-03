@@ -1,9 +1,9 @@
-﻿using Alura.Estacionamento.Alura.Estacionamento.Modelos;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Estacionamento.Alura.Estacionamento.Modelos;
 
-namespace Alura.Estacionamento.Modelos
+namespace Estacionamento.Modelos
 {
     public class Veiculo
     {

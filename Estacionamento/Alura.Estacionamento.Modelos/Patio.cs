@@ -1,12 +1,12 @@
-﻿using Alura.Estacionamento.Alura.Estacionamento.Modelos;
-using Alura.Estacionamento.Modelos;
+﻿using Estacionamento.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Estacionamento.Alura.Estacionamento.Modelos;
 
-namespace Alura.Estacionamento.Modelos
+namespace Estacionamento.Modelos
 {
     public class Patio
     {

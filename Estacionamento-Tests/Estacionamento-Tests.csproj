@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Alura.Estacionamento\Alura.Estacionamento.csproj" />
+      <ProjectReference Include="..\Estacionamento\Estacionamento.csproj" />
     </ItemGroup>
 
 </Project>

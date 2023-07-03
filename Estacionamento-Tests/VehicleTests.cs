@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using Alura.Estacionamento.Alura.Estacionamento.Modelos;
-using Alura.Estacionamento.Modelos;
+using Estacionamento.Alura.Estacionamento.Modelos;
+using Estacionamento.Modelos;
 
 namespace Estacionamento_Tests;
 
