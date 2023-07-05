@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using Estacionamento.Alura.Estacionamento.Modelos;
 using Estacionamento.Modelos;
 
@@ -8,7 +7,8 @@ public class VehicleTests
 {
     private Veiculo _veiculoTest = new();
     
-    [Fact(DisplayName = "Testing vehicle acelerate")]
+    [Fact(DisplayName = "Testing vehicle acceleration")]
+    [Trait("Function", "Accelerate")]
     public void TestVehicleAcelerate()
     {
         // Arrange
@@ -20,6 +20,7 @@ public class VehicleTests
     }
 
     [Fact(DisplayName = "Testing vehicle brake")]
+    [Trait("Function", "Brake")]
     public void TestVehicleBrake()
     {
         // Arrange
@@ -38,5 +39,21 @@ public class VehicleTests
         // Act
         // Assert
         Assert.Equal(TipoVeiculo.Automovel, _veiculoTest.Tipo);
+    }
+
+    [Fact(Skip = "Test not implemented.")]
+    public void ValidPropertyName()
+    {
+        
+    }
+
+    [Theory]
+    [ClassData(typeof(Veiculo))]
+    public void TestClassVehicle(Veiculo vehicle)
+    {
+        _veiculoTest.Acelerar(10);
+        vehicle.Acelerar(10);
+        
+        Assert.Equal(vehicle.VelocidadeAtual, _veiculoTest.VelocidadeAtual);
     }
 }
