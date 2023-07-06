@@ -77,6 +77,16 @@ namespace Estacionamento.Modelos
             set => _tipo = value;
         }
 
+        public override string ToString()
+        {
+            return "Vehicle record:\n" +
+                   $"Vehicle type: {Tipo.ToString()}\n" +
+                   $"Property: {Proprietario}\n" +
+                   $"Model: {Modelo}\n" +
+                   $"Color: {Cor}\n" +
+                   $"Plate: {Placa}\n";
+        }
+
         //Métodos
         public void Acelerar(int tempoSeg)
         {
@@ -113,5 +123,13 @@ namespace Estacionamento.Modelos
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public void ChangeData(Veiculo vehicle)
+        {
+            Proprietario = vehicle.Proprietario;
+            Modelo = vehicle.Modelo;
+            Largura = vehicle.Largura;
+            Cor = vehicle.Cor;
+        }
     }
 }

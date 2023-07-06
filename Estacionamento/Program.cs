@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Estacionamento.Alura.Estacionamento.Modelos;
+using Estacionamento.Estacionamento.Modelos;
 using Estacionamento.Modelos;
 
 namespace Estacionamento

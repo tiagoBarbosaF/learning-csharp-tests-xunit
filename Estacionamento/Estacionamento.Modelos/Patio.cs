@@ -1,25 +1,34 @@
-﻿using Estacionamento.Modelos;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Estacionamento.Alura.Estacionamento.Modelos;
+using Estacionamento.Modelos;
 
-namespace Estacionamento.Modelos
+namespace Estacionamento.Estacionamento.Modelos
 {
     public class Patio
     {
-       
         public Patio()
         {
             Faturado = 0;
             veiculos = new List<Veiculo>();
         }
+
         private List<Veiculo> veiculos;
         private double faturado;
-        public double Faturado { get => faturado; set => faturado = value; }
-        public List<Veiculo> Veiculos { get => veiculos; set => veiculos = value; }       
+
+        public double Faturado
+        {
+            get => faturado;
+            set => faturado = value;
+        }
+
+        public List<Veiculo> Veiculos
+        {
+            get => veiculos;
+            set => veiculos = value;
+        }
+
         public double TotalFaturado()
         {
             return this.Faturado;
@@ -27,20 +36,21 @@ namespace Estacionamento.Modelos
 
         public string MostrarFaturamento()
         {
-            string totalfaturado = String.Format("Total faturado até o momento :::::::::::::::::::::::::::: {0:c}", this.TotalFaturado());
+            string totalfaturado = String.Format("Total faturado até o momento :::::::::::::::::::::::::::: {0:c}",
+                this.TotalFaturado());
             return totalfaturado;
         }
 
         public void RegistrarEntradaVeiculo(Veiculo veiculo)
         {
-            veiculo.HoraEntrada = DateTime.Now;            
-            this.Veiculos.Add(veiculo);            
+            veiculo.HoraEntrada = DateTime.Now;
+            this.Veiculos.Add(veiculo);
         }
 
         public string RegistrarSaidaVeiculo(String placa)
         {
             Veiculo procurado = null;
-            string informacao=string.Empty;
+            string informacao = string.Empty;
 
             foreach (Veiculo v in this.Veiculos)
             {
@@ -55,22 +65,24 @@ namespace Estacionamento.Modelos
                         /// Ex.: 0,9999 ou 0,0001 teto = 1
                         /// Obs.: o conceito de chão é inverso e podemos utilizar Math.Floor();
                         valorASerCobrado = Math.Ceiling(tempoPermanencia.TotalHours) * 2;
-
                     }
+
                     if (v.Tipo == TipoVeiculo.Motocicleta)
                     {
                         valorASerCobrado = Math.Ceiling(tempoPermanencia.TotalHours) * 1;
                     }
+
                     informacao = string.Format(" Hora de entrada: {0: HH: mm: ss}\n " +
-                                             "Hora de saída: {1: HH:mm:ss}\n "      +
-                                             "Permanência: {2: HH:mm:ss} \n "       +
-                                             "Valor a pagar: {3:c}", v.HoraEntrada, v.HoraSaida, new DateTime().Add(tempoPermanencia), valorASerCobrado);
+                                               "Hora de saída: {1: HH:mm:ss}\n " +
+                                               "Permanência: {2: HH:mm:ss} \n " +
+                                               "Valor a pagar: {3:c}", v.HoraEntrada, v.HoraSaida,
+                        new DateTime().Add(tempoPermanencia), valorASerCobrado);
                     procurado = v;
                     this.Faturado = this.Faturado + valorASerCobrado;
                     break;
                 }
-
             }
+
             if (procurado != null)
             {
                 this.Veiculos.Remove(procurado);
@@ -83,9 +95,22 @@ namespace Estacionamento.Modelos
             return informacao;
         }
 
-        
 
-       
-    
+        public Veiculo SearchVehicle(string plate)
+        {
+            var finded = (from veiculo in Veiculos where veiculo.Placa.Equals(plate) select veiculo).SingleOrDefault();
+
+            return finded;
+        }
+
+        public Veiculo ChangeVehicleData(Veiculo vehicle)
+        {
+            var vehicleTemp = (from veiculo in Veiculos where veiculo.Placa.Equals(vehicle.Placa) select veiculo)
+                .SingleOrDefault();
+
+            vehicleTemp.ChangeData(vehicle);
+
+            return vehicleTemp;
+        }
     }
 }

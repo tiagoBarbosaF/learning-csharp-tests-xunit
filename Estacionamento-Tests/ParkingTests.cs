@@ -1,4 +1,5 @@
 ﻿using Estacionamento.Alura.Estacionamento.Modelos;
+using Estacionamento.Estacionamento.Modelos;
 using Estacionamento.Modelos;
 
 namespace Estacionamento_Tests;
@@ -16,6 +17,7 @@ public class ParkingTests
     };
 
     [Fact(DisplayName = "Valid billing parking.")]
+    [Trait("Function", "Parking")]
     public void ValidBilling()
     {
         _patio.RegistrarEntradaVeiculo(_vehicle);
@@ -32,6 +34,7 @@ public class ParkingTests
     [InlineData("Tiago", "CFT-3469", "Black", "Kwid")]
     [InlineData("Rakel", "LAS-3098", "Yellow", "Ranger")]
     [InlineData("Peter", "JAO-1489", "Blue", "Troller")]
+    [Trait("Function", "Parking")]
     public void ValidBillingForManyVehicles(string property, string plate, string color, string model)
     {
         // Arrange
@@ -48,5 +51,50 @@ public class ParkingTests
 
         // Assert
         Assert.Equal(2, billing);
+    }
+
+    [Theory]
+    [InlineData("Tiago", "CFT-3469", "Black", "Kwid")]
+    [InlineData("Rakel", "LAS-3098", "Yellow", "Ranger")]
+    [InlineData("Peter", "JAO-1489", "Blue", "Troller")]
+    [Trait("Function", "Parking")]
+    public void LocateVehicleInParking(string property, string plate, string color, string model)
+    {
+        // Arrange
+        _vehicle.Proprietario = property;
+        _vehicle.Placa = plate;
+        _vehicle.Cor = color;
+        _vehicle.Modelo = model;
+
+        _patio.RegistrarEntradaVeiculo(_vehicle);
+        
+        // Act
+        var search = _patio.SearchVehicle(plate);
+        
+        // Assert
+        Assert.Equal(plate, search.Placa);
+    }
+
+    [Fact]
+    [Trait("Function", "Parking")]
+    public void ChangeVehicleData()
+    {
+        // Arrange
+        _patio.RegistrarEntradaVeiculo(_vehicle);
+        
+        var vehicle = new Veiculo("Tiago")
+        {
+            Tipo = TipoVeiculo.Automovel,
+            Cor = "Black",
+            Modelo = "New Fiesta",
+            Placa = "ABC-1234"
+        };
+
+        // Act
+        var changed = _patio.ChangeVehicleData(vehicle);
+        
+        // Assert
+        Assert.Equal(changed.Cor, _vehicle.Cor);
+
     }
 }
