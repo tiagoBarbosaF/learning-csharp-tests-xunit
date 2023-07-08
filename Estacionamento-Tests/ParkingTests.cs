@@ -4,7 +4,7 @@ using Estacionamento.Modelos;
 
 namespace Estacionamento_Tests;
 
-public class ParkingTests
+public class ParkingTests : IDisposable
 {
     private Patio _patio = new();
 
@@ -58,7 +58,7 @@ public class ParkingTests
     [InlineData("Rakel", "LAS-3098", "Yellow", "Ranger")]
     [InlineData("Peter", "JAO-1489", "Blue", "Troller")]
     [Trait("Function", "Parking")]
-    public void LocateVehicleInParking(string property, string plate, string color, string model)
+    public void LocateVehicleInParkingUsingIdTicket(string property, string plate, string color, string model)
     {
         // Arrange
         _vehicle.Proprietario = property;
@@ -69,10 +69,10 @@ public class ParkingTests
         _patio.RegistrarEntradaVeiculo(_vehicle);
         
         // Act
-        var search = _patio.SearchVehicle(plate);
+        var search = _patio.SearchVehicle(_vehicle.IdTicket);
         
         // Assert
-        Assert.Equal(plate, search.Placa);
+        Assert.Contains($"Identity: {_vehicle.IdTicket}", search.Ticket);
     }
 
     [Fact]
@@ -96,5 +96,17 @@ public class ParkingTests
         // Assert
         Assert.Equal(changed.Cor, _vehicle.Cor);
 
+    }
+
+    [Fact]
+    [Trait("Function", "Parking")]
+    public void CheckTicketGenerationInRecordVehicle()
+    {
+        
+    }
+
+    public void Dispose()
+    {
+        
     }
 }

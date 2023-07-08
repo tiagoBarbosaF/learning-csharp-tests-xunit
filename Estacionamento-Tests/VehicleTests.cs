@@ -1,10 +1,13 @@
 using Estacionamento.Alura.Estacionamento.Modelos;
 using Estacionamento.Modelos;
+using Xunit.Abstractions;
 
 namespace Estacionamento_Tests;
 
-public class VehicleTests
+public class VehicleTests : IDisposable
 {
+    private ITestOutputHelper TestOutputHelper { get; }
+
     private Veiculo _veiculoTest = new("Tiago")
     {
         Tipo = TipoVeiculo.Automovel,
@@ -13,12 +16,18 @@ public class VehicleTests
         Placa = "ABC-1234"
     };
 
+    public VehicleTests(ITestOutputHelper testOutputHelper)
+    {
+        TestOutputHelper = testOutputHelper;
+        TestOutputHelper.WriteLine("Testing console output.");
+    }
+
     [Fact(DisplayName = "Testing vehicle acceleration")]
     [Trait("Function", "Vehicle")]
     public void TestVehicleAcelerate()
     {
         // Arrange
-        // var vehicle = new Veiculo();
+
         // Act
         _veiculoTest.Acelerar(10);
         // Assert
@@ -30,7 +39,6 @@ public class VehicleTests
     public void TestVehicleBrake()
     {
         // Arrange
-        // var vehicle = new Veiculo();
         // Act
         _veiculoTest.Frear(10);
         // Assert
@@ -72,5 +80,34 @@ public class VehicleTests
         var data = _veiculoTest.ToString();
 
         Assert.Contains("Vehicle type: Automovel", data!);
+    }
+
+    [Fact]
+    [Trait("Function", "Vehicle")]
+    public void CheckPropertyNameWithLessThenThreeCharacters()
+    {
+        var propertyName = "Ti";
+
+        Assert.Throws<FormatException>(
+            () => new Veiculo(propertyName)
+        );
+    }
+
+    [Fact]
+    [Trait("Function", "Vehicle")]
+    public void CheckExceptionMessageOfFourthPlateCharacter()
+    {
+        var plate = "ABCD1234";
+
+        var exception = Assert.Throws<FormatException>(
+            () => new Veiculo().Placa = plate
+        );
+        
+        Assert.Equal("O 4° caractere deve ser um hífen", exception.Message);
+    }
+
+
+    public void Dispose()
+    {
     }
 }

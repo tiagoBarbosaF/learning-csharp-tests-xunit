@@ -44,6 +44,7 @@ namespace Estacionamento.Estacionamento.Modelos
         public void RegistrarEntradaVeiculo(Veiculo veiculo)
         {
             veiculo.HoraEntrada = DateTime.Now;
+            TicketGenerate(veiculo);
             this.Veiculos.Add(veiculo);
         }
 
@@ -96,9 +97,10 @@ namespace Estacionamento.Estacionamento.Modelos
         }
 
 
-        public Veiculo SearchVehicle(string plate)
+        public Veiculo SearchVehicle(string idTicket)
         {
-            var finded = (from veiculo in Veiculos where veiculo.Placa.Equals(plate) select veiculo).SingleOrDefault();
+            var finded = (from veiculo in Veiculos where veiculo.IdTicket.Equals(idTicket) select veiculo)
+                .SingleOrDefault();
 
             return finded;
         }
@@ -108,9 +110,23 @@ namespace Estacionamento.Estacionamento.Modelos
             var vehicleTemp = (from veiculo in Veiculos where veiculo.Placa.Equals(vehicle.Placa) select veiculo)
                 .SingleOrDefault();
 
-            vehicleTemp.ChangeData(vehicle);
+            vehicleTemp?.ChangeData(vehicle);
 
             return vehicleTemp;
+        }
+
+        private string TicketGenerate(Veiculo veiculo)
+        {
+            veiculo.IdTicket = new Guid().ToString().Substring(0, 5);
+
+            var ticket = "=== Ticket Parking ===\n" +
+                         $"--- Identity: {veiculo.IdTicket}\n" +
+                         $"--- Date/Hour entrance: {DateTime.Now}\n" +
+                         $"--- Vehicle Plate: {veiculo.Placa}";
+
+            veiculo.Ticket = ticket;
+
+            return ticket;
         }
     }
 }

@@ -11,8 +11,17 @@ namespace Estacionamento.Modelos
         private string _placa;
         private string _proprietario;
         private TipoVeiculo _tipo;
+        private string _ticket;
 
-        //Propriedades   
+        //Propriedades
+
+        public string IdTicket { get; set; }
+
+        public string Ticket
+        {
+            get => _ticket;
+            set => _ticket = value;
+        }
 
         public string Placa
         {
@@ -67,7 +76,19 @@ namespace Estacionamento.Modelos
         public double Largura { get; set; }
         public double VelocidadeAtual { get; set; }
         public string Modelo { get; set; }
-        public string Proprietario { get; set; }
+
+        public string Proprietario
+        {
+            get => _proprietario;
+            set
+            {
+                if (value.Length < 3)
+                    throw new FormatException("Property name have two or less characters.");
+
+                _proprietario = value;
+            }
+        }
+
         public DateTime HoraEntrada { get; set; }
         public DateTime HoraSaida { get; set; }
 
