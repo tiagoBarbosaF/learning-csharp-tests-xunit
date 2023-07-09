@@ -14,6 +14,13 @@ namespace Estacionamento.Estacionamento.Modelos
             veiculos = new List<Veiculo>();
         }
 
+        private Attendant _attendantParking { get; set; }
+        public Attendant Attendant
+        {
+            get => _attendantParking;
+            set => _attendantParking = value;
+        }
+
         private List<Veiculo> veiculos;
         private double faturado;
 
@@ -122,7 +129,10 @@ namespace Estacionamento.Estacionamento.Modelos
             var ticket = "=== Ticket Parking ===\n" +
                          $"--- Identity: {veiculo.IdTicket}\n" +
                          $"--- Date/Hour entrance: {DateTime.Now}\n" +
-                         $"--- Vehicle Plate: {veiculo.Placa}";
+                         $"--- Vehicle Plate: {veiculo.Placa}\n" +
+                         $"--- Attendant parking:\n" +
+                         $"---  - Name: {_attendantParking.Name}\n" +
+                         $"---  - Registration: {_attendantParking.Registration}\n";
 
             veiculo.Ticket = ticket;
 

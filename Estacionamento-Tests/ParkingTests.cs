@@ -6,7 +6,12 @@ namespace Estacionamento_Tests;
 
 public class ParkingTests : IDisposable
 {
-    private Patio _patio = new();
+    private readonly Patio _patio = new();
+
+    private readonly Attendant _attendant = new()
+    {
+        Name = "John"
+    };
 
     private Veiculo _vehicle = new("Tiago")
     {
@@ -20,12 +25,11 @@ public class ParkingTests : IDisposable
     [Trait("Function", "Parking")]
     public void ValidBilling()
     {
+        _patio.Attendant = _attendant;
         _patio.RegistrarEntradaVeiculo(_vehicle);
         _patio.RegistrarSaidaVeiculo(_vehicle.Placa);
-
         // Act
         var billing = _patio.TotalFaturado();
-
         // Assert
         Assert.Equal(2, billing);
     }
@@ -43,6 +47,7 @@ public class ParkingTests : IDisposable
         _vehicle.Cor = color;
         _vehicle.Modelo = model;
 
+        _patio.Attendant = _attendant;
         _patio.RegistrarEntradaVeiculo(_vehicle);
         _patio.RegistrarSaidaVeiculo(_vehicle.Placa);
 
@@ -66,6 +71,7 @@ public class ParkingTests : IDisposable
         _vehicle.Cor = color;
         _vehicle.Modelo = model;
 
+        _patio.Attendant = _attendant;
         _patio.RegistrarEntradaVeiculo(_vehicle);
         
         // Act
@@ -80,6 +86,7 @@ public class ParkingTests : IDisposable
     public void ChangeVehicleData()
     {
         // Arrange
+        _patio.Attendant = _attendant;
         _patio.RegistrarEntradaVeiculo(_vehicle);
         
         var vehicle = new Veiculo("Tiago")
